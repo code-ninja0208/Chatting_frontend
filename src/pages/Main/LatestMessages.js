@@ -38,6 +38,8 @@ const LatestMessages = () => {
 
   if (loadingUsers || loadingGroups || loadingGlobal || !userData) {
     return <LoadingSpinner />;
+  } else {
+    console.log(globalData)
   }
 
   return (
@@ -47,10 +49,10 @@ const LatestMessages = () => {
           <ListItem
             className={classes.listItem}
             button
-            onClick={() => selectChat(globalData.getGlobalGroup, 'public')}
+            onClick={() => selectChat(globalData?.getGlobalGroup, 'public')}
             selected={
               selectedChat?.chatType === 'public' &&
-              globalData.getGlobalGroup.id === selectedChat.chatData.id
+              globalData?.getGlobalGroup.id === selectedChat?.chatData.id
             }
           >
             <ListItemAvatar>
@@ -58,7 +60,7 @@ const LatestMessages = () => {
                 <LanguageIcon color="primary" />
               </Avatar>
             </ListItemAvatar>
-            <LatestMessage body={globalData.getGlobalGroup} />
+            <LatestMessage body={globalData?.getGlobalGroup} />
           </ListItem>
         )}
         <Divider />

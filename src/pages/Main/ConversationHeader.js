@@ -120,7 +120,7 @@ const ConversationHeader = () => {
                 size="small"
                 style={{ marginRight: 10 }}
               >
-                <GroupAddIcon fontSize={isMobile ? 'default' : 'large'} />
+                <GroupAddIcon fontSize={isMobile ? 'medium' : 'large'} />
               </IconButton>
             }
           >
@@ -141,7 +141,7 @@ const ConversationHeader = () => {
                 onClick={() => setInfoModal(true)}
                 size="small"
               >
-                <MenuOpenIcon fontSize={isMobile ? 'default' : 'large'} />
+                <MenuOpenIcon fontSize={isMobile ? 'medium' : 'large'} />
               </IconButton>
             }
           >
