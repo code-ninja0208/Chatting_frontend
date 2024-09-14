@@ -13,9 +13,29 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 const UserButtonsDesktop = ({ user, handleLogout, isMobile }) => {
   const [createGroupModal, setCreateGroupModal] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState(null); // State to store the selected avatar
   const classes = useNavStyles();
 
   if (isMobile) return null;
+
+  const handleAvatarClick = () => {
+    document.getElementById('avatarFileInput').click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const fileUrl = URL.createObjectURL(file);
+      setSelectedAvatar(fileUrl); 
+      // Optionally, you can also upload the file to the server here
+    }
+  };
+
+  const avatarSrc = selectedAvatar
+    ? selectedAvatar
+    : user?.profile
+    ? user?.profile.avatarUrl
+    : `https://secure.gravatar.com/avatar/${user?.id}?s=150&d=retro`;
 
   return (
     <div>
@@ -24,12 +44,21 @@ const UserButtonsDesktop = ({ user, handleLogout, isMobile }) => {
           <div className={classes.userInfo}>
             <Avatar
               alt={user.username}
-              src={`https://secure.gravatar.com/avatar/${user.id}?s=150&d=retro`}
+              src={avatarSrc}
               className={classes.avatar}
+              onClick={handleAvatarClick} 
+              style={{ cursor: 'pointer' }} 
             />
             <Typography color="secondary" variant="body1">
               {user.username}
             </Typography>
+            <input
+              id="avatarFileInput"
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleFileChange} 
+            />
           </div>
           <DialogBox
             title="Create A Group"

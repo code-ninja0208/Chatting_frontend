@@ -15,7 +15,7 @@ const EmojiPicker = ({ handleEmojiAdd, isModal }) => {
         color={anchorEl ? 'primary' : 'default'}
         onClick={(e) => setAnchorEl(e.currentTarget)}
       >
-        <InsertEmoticonIcon fontSize={isModal ? 'default' : 'large'} />
+        <InsertEmoticonIcon fontSize={isModal ? 'medium' : 'large'} />
       </IconButton>
       <Popover
         open={Boolean(anchorEl)}

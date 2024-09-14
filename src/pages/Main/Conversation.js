@@ -259,10 +259,13 @@ const Conversation = () => {
                     !isSameUser &&
                     user.id !== message.senderId && (
                       <Typography variant="caption" color="secondary">
-                        {message.user.username}
+                        {message.user?.username}
                       </Typography>
                     )}
-                  <MessageBubble message={message} />
+                  <MessageBubble message={message} 
+                    onEdit={(message) => console.log('Edit message:', message)}
+                    onDelete={(messageId) => console.log('Delete message:', messageId)}
+                  />
                 </div>
               </div>
             );

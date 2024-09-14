@@ -11,10 +11,12 @@ import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import SettingsIcon from '@material-ui/icons/Settings';  // Add icon for Profile Settings
 
 const MobileUserMenu = ({ user, handleLogout, isMobile }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [createGroupModal, setCreateGroupModal] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState(null); // State to store the selected avatar
   const classes = useMenuStyles();
 
   const handleOpenMenu = (event) => {
@@ -35,6 +37,27 @@ const MobileUserMenu = ({ user, handleLogout, isMobile }) => {
     handleCloseMenu();
   };
 
+  const handleProfileSettingsClick = () => {
+    // Trigger the hidden file input when Profile Settings is clicked
+    document.getElementById('avatarFileInputMobile').click();
+    handleCloseMenu(); // Close the menu after triggering the input
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const fileUrl = URL.createObjectURL(file);
+      setSelectedAvatar(fileUrl); // Store the selected file URL in state
+      // Optionally, you can upload the file to the server here
+    }
+  };
+
+  const avatarSrc = selectedAvatar
+    ? selectedAvatar
+    : user?.profile
+    ? user?.profile.avatarUrl
+    : `https://secure.gravatar.com/avatar/${user?.id}?s=150&d=retro`;
+
   if (!isMobile) return null;
 
   return (
@@ -44,9 +67,10 @@ const MobileUserMenu = ({ user, handleLogout, isMobile }) => {
         <IconButton onClick={handleOpenMenu} className={classes.userBtnMob}>
           <Avatar
             alt={user.username}
-            src={`https://secure.gravatar.com/avatar/${user.id}?s=150&d=retro`}
+            src={avatarSrc} // Display selected avatar or fallback
             className={classes.avatar}
             variant="rounded"
+            style={{ cursor: 'pointer' }}
           />
           <MoreVertIcon color="primary" />
         </IconButton>
@@ -78,6 +102,20 @@ const MobileUserMenu = ({ user, handleLogout, isMobile }) => {
       >
         {user ? (
           <div>
+            {/* Profile Settings Option */}
+            <MenuItem onClick={handleProfileSettingsClick}>
+              <SettingsIcon className={classes.menuIcon} />
+              Profile Settings
+            </MenuItem>
+            {/* Hidden file input for selecting avatar */}
+            <input
+              id="avatarFileInputMobile"
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleFileChange} // Handle file selection
+            />
+
             <DialogBox
               title="Create A Group"
               modalOpen={createGroupModal}

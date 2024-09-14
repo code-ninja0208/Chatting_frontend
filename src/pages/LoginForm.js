@@ -55,6 +55,7 @@ const LoginForm = () => {
       variables: { username, password },
       update: (_, { data }) => {
         setUser(data.login);
+        console.log(data.login)
         notify(`Welcome, ${data.login.username}! You're logged in.`);
         reset();
       },
